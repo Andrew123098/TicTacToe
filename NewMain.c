@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <conio.h>
 
 void markArray(); //Takes in a number from the users, makes sure it is valid, and creates a new array
 void drawBoard(); // Draws the board with the given array for each turn
@@ -38,37 +39,45 @@ void markArray()
 {
     char squareNum; //this is the user input variable for square number
     bool validNum = 1; // initialize the number to be invalid
+    int i = 0; //initialize counter variable
 
-    printf("\n\nPlayer %d, enter a number: ", playerNum);
+    printf("\n\nPlayer %d, enter a number:", playerNum);
     scanf("%c", &squareNum);
     printf("\nChosen number is %c\n\n", squareNum);
 
-    //This if if else statement sets mark based on playerNum
+    //This if else statement sets mark based on playerNum
     mark = (playerNum == 1) ? 'X' : 'O';
 
+    //This loop makes sure the user enters a valid number
+
+    /****************************************************
+    Try typecasting the nums array to int for this loop
+    and then immediately typecasting back to char.
+    This may get rid of scanf bugs such as entering 12
+    and getting back an entry of 1 and 2.
+    *****************************************************/
     while(validNum == 1)
     {
-        int i = 0;
+        //This statement works when all of nums has been looped through.
+        //It sets I back to 0 and asks for a different value of squareNum
+        if (i == 9)
+        {
+        printf("\nPlease enter a valid number:");
+        scanf("%c", &squareNum);
+        i = 0;
+        }
 
-        //This if statement works if the number entered is not equal any of the square numbers
+        //This if statement works if the number entered is not equal any of the square numbers and increases the counter
         if(squareNum != nums[i])
         {
         validNum = 1;
         i++;
         }
 
-        //This statement sets validNum equal to 0 if squarenum is equal to any value of nums
+        //This statement sets validNum equal to 0 if squarenum is equal to any value of nums and resets the counter
         if (squareNum == nums[i])
         {
         validNum = 0;
-        }
-
-        //This statement works when all of nums has been looped through.
-        //It sets I back to 0 and asks for a different value of squareNum
-        if (i == 9)
-        {
-        printf("Please enter a valid number:\n");
-        scanf("%c", &squareNum);
         i = 0;
         }
     }
@@ -77,14 +86,7 @@ void markArray()
     nums[temp-1] = mark; //changes the square chosen to the given mark
 
     //Switch the player number each turn
-    if (playerNum == 1)
-    {
-        playerNum = 2;
-    }
-    else
-    {
-        playerNum = 1;
-    }
+   playerNum = (playerNum == 1) ? 2 : 1;
 }
 
 
@@ -96,7 +98,7 @@ The function drawBoard:
 void drawBoard()
 {
     //Print out the new board
-    printf("     |     |     \n");
+    printf("\n     |     |     \n");
     printf("  %c  |  %c  |  %c  \n", nums[0], nums[1], nums[2]);
     printf("_____|_____|_____\n");
     printf("     |     |     \n");
@@ -146,4 +148,5 @@ bool checkForWin()
     }
     //Return whether or not someone won
     return winFound;
+    printf("/n WinFound is %d\n", winFound);
 }
