@@ -12,7 +12,6 @@ char mark; // is equal to X or O based on player number
 int playerNum = 1; // initialize the player number
 bool winFound = 1; // initialize the that the win is not found
 
-
 int main ()
 {
     printf("Welcome to my TicTacToe Game!\n");
