@@ -36,58 +36,67 @@ The function markArray;
 
 void markArray()
 {
-    char squareNum; //this is the user input variable for square number
+    unsigned char squareNumChar; //this is the user input variable for square number
     bool validNum = 1; // initialize the number to be invalid
     int i = 0; //initialize counter variable
+    int squareNumInt; //used to check validity of input
+    int numsInt[9]; // used to check validity of input
+        sscanf(nums, "%d", &numsInt); //typecast nums array from char to int
 
-    printf("\n\nPlayer %d, enter a number:", playerNum);
-    scanf("%c", &squareNum);
-    printf("\nChosen number is %c\n\n", squareNum);
+    mark = (playerNum == 1) ? 'X' : 'O'; //This if else statement sets mark based on playerNum
 
-    //This if else statement sets mark based on playerNum
-    mark = (playerNum == 1) ? 'X' : 'O';
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    //This loop makes sure the user enters a valid number
+    //Ask the player to input a number as an integer
+    printf("\n\nPlayer %d, enter a number: ", playerNum);
+    scanf("%d", &squareNumInt);
 
-    /****************************************************
-    Try typecasting the nums array to int for this loop
-    and then immediately typecasting back to char.
-    This may get rid of scanf bugs such as entering 12
-    and getting back an entry of 1 and 2.
-    *****************************************************/
+    //Make a character variable out of the integer variable
+    squareNumChar = (unsigned char) squareNumInt; // create character variable of squarenum
+    printf("\nChosen number is %c\n\n", (char)squareNumInt); // print out character variable to check
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+   //This loop makes sure the user enters a valid number
     while(validNum == 1)
     {
         //This statement works when all of nums has been looped through.
         //It sets I back to 0 and asks for a different value of squareNum
         if (i == 9)
         {
-        printf("\nPlease enter a valid number:");
-        scanf("%c", &squareNum);
+        printf("\nPlease enter a valid number: ");
+        scanf("%d", &squareNumInt);
+        squareNumChar = (unsigned char) squareNumInt; /**
+                                                      This line can be used to have the if statements below
+                                                      work with squareNumChar and nums. However new invalid
+                                                      number bug arises with this change. Not sure how to fix
+                                                      because typecasting from int to char creates a "?" when
+                                                      printed out. Ask Haan and do some research.
+                                                      **/
         i = 0;
         }
 
         //This if statement works if the number entered is not equal any of the square numbers and increases the counter
-        if(squareNum != nums[i])
+        if(squareNumInt != numsInt[i])
         {
         validNum = 1;
         i++;
         }
 
         //This statement sets validNum equal to 0 if squarenum is equal to any value of nums and resets the counter
-        if (squareNum == nums[i])
+        if (squareNumInt == numsInt[i])
         {
         validNum = 0;
         i = 0;
         }
     }
 
-    int temp = squareNum - '0'; //typecast from char to int
-    nums[temp-1] = mark; //changes the square chosen to the given mark
+
+    nums[squareNumInt-1] = mark; //changes the square chosen to the given mark
 
     //Switch the player number each turn
    playerNum = (playerNum == 1) ? 2 : 1;
 }
-
 
 /*******************************************************
 The function drawBoard:
@@ -106,9 +115,7 @@ void drawBoard()
     printf("     |     |     \n");
     printf("  %c  |  %c  |  %c  \n", nums[6], nums[7], nums[8]);
     printf("     |     |     \n\n");
-
 }
-
 
 /************************************************************
 The Function checkForWin:
