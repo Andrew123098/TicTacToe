@@ -41,7 +41,16 @@ void markArray()
     int i = 0; //initialize counter variable
     int squareNumInt; //used to check validity of input
     int numsInt[9]; // used to check validity of input
-        sscanf(nums, "%d", &numsInt); //typecast nums array from char to int
+
+    //Typecast the char array nums to int array numsInt
+    for (i = 0; i < 9; i++)
+    {
+         numsInt[i] = nums[i] + '0';
+         printf("%d\n", numsInt[i]); /** THIS SHIT IS ASCII! **/
+    }
+
+
+
 
     mark = (playerNum == 1) ? 'X' : 'O'; //This if else statement sets mark based on playerNum
 
@@ -52,27 +61,28 @@ void markArray()
     scanf("%d", &squareNumInt);
 
     //Make a character variable out of the integer variable
-    squareNumChar = (unsigned char) squareNumInt; // create character variable of squarenum
-    printf("\nChosen number is %c\n\n", (char)squareNumInt); // print out character variable to check
+    squareNumChar = squareNumInt + '0'; // create character variable of squareNumInt
+    printf("\nChosen number is %d\n\n", squareNumInt); // print out character variable to check
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
    //This loop makes sure the user enters a valid number
+    i = 0;
     while(validNum == 1)
     {
         //This statement works when all of nums has been looped through.
-        //It sets I back to 0 and asks for a different value of squareNum
+        //It sets i back to 0 and asks for a different value of squareNum
         if (i == 9)
         {
         printf("\nPlease enter a valid number: ");
         scanf("%d", &squareNumInt);
-        squareNumChar = (unsigned char) squareNumInt; /**
+        squareNumChar = squareNumInt + '0'; /**
                                                       This line can be used to have the if statements below
                                                       work with squareNumChar and nums. However new invalid
                                                       number bug arises with this change. Not sure how to fix
                                                       because typecasting from int to char creates a "?" when
                                                       printed out. Ask Haan and do some research.
-                                                      **/
+                                            **/
         i = 0;
         }
 
@@ -154,5 +164,4 @@ bool checkForWin()
     }
     //Return whether or not someone won
     return winFound;
-    printf("/n WinFound is %d\n", winFound);
 }
