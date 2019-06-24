@@ -11,18 +11,30 @@ char nums[9] = {'1','2','3','4','5','6','7','8','9'}; //square numbers
 char mark; // is equal to X or O based on player number
 int playerNum = 1; // initialize the player number
 bool winFound = 1; // initialize the that the win is not found
+int turnCounter = 0; // counts the number of moves that have been made
 
 int main ()
 {
     printf("Welcome to my TicTacToe Game!\n");
-    printf("Player 1 is X \nPlayer 2 is O\n\n");
+    printf("Player 1 is X \nPlayer 2 is O");
     drawBoard();
 
-    while(winFound == 1)
+    while(winFound == 1 && turnCounter != 9)
     {
         markArray();
         drawBoard();
         checkForWin();
+    }
+
+    //Print out who won the game or if the game was a draw
+    if (turnCounter == 9)
+    {
+    printf("The Game is a Draw\n\n");
+    }
+    else
+    {
+    playerNum = (playerNum == 1) ? 2 : 1;
+    printf("Player %d Wins!\n\n", playerNum);
     }
 
     return 0;
@@ -40,17 +52,6 @@ void markArray()
     bool validNum = 1; // initialize the number to be invalid
     int i = 0; //initialize counter variable
     int squareNumInt; //used to check validity of input
-    int numsInt[9]; // used to check validity of input
-
-    //Typecast the char array nums to int array numsInt
-    for (i = 0; i < 9; i++)
-    {
-         numsInt[i] = nums[i] + '0';
-         printf("%d\n", numsInt[i]); /** THIS SHIT IS ASCII! **/
-    }
-
-
-
 
     mark = (playerNum == 1) ? 'X' : 'O'; //This if else statement sets mark based on playerNum
 
@@ -62,7 +63,7 @@ void markArray()
 
     //Make a character variable out of the integer variable
     squareNumChar = squareNumInt + '0'; // create character variable of squareNumInt
-    printf("\nChosen number is %d\n\n", squareNumInt); // print out character variable to check
+//    printf("\nChosen number is %d\n\n", squareNumInt); // print out character variable to check
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -76,28 +77,24 @@ void markArray()
         {
         printf("\nPlease enter a valid number: ");
         scanf("%d", &squareNumInt);
-        squareNumChar = squareNumInt + '0'; /**
-                                                      This line can be used to have the if statements below
-                                                      work with squareNumChar and nums. However new invalid
-                                                      number bug arises with this change. Not sure how to fix
-                                                      because typecasting from int to char creates a "?" when
-                                                      printed out. Ask Haan and do some research.
-                                            **/
+        squareNumChar = squareNumInt + '0';
         i = 0;
         }
 
         //This if statement works if the number entered is not equal any of the square numbers and increases the counter
-        if(squareNumInt != numsInt[i])
+        if(squareNumChar != nums[i])
         {
         validNum = 1;
         i++;
         }
 
         //This statement sets validNum equal to 0 if squarenum is equal to any value of nums and resets the counter
-        if (squareNumInt == numsInt[i])
+        if (squareNumChar == nums[i])
         {
-        validNum = 0;
-        i = 0;
+            validNum = 0;
+            i = 0;
+            turnCounter++; //increase the turn counter each time a valid move is made
+            system("cls"); //clear the console
         }
     }
 
@@ -116,7 +113,7 @@ The function drawBoard:
 void drawBoard()
 {
     //Print out the new board
-    printf("\n     |     |     \n");
+    printf("\n\n\n     |     |     \n");
     printf("  %c  |  %c  |  %c  \n", nums[0], nums[1], nums[2]);
     printf("_____|_____|_____\n");
     printf("     |     |     \n");
@@ -141,27 +138,36 @@ bool checkForWin()
     //Check for win in rows
     for (i = 0; i < 9; i+= 3)
     {
-        if(nums[i] == nums[i+1] == nums[i+2] == mark)
-        return winFound = 0;
+        if(nums[i] == nums[i+1] && nums[i+1] == nums[i+2] && nums[i+2] == mark)
+        {
+            winFound = 0;
+            turnCounter = 0;
+        }
+
     }
 
     //Check for win in columns
     for (i = 0; i < 3; i++)
     {
-        if(nums[i]== nums[i+3] == nums[i+6] == mark)
-        return winFound = 0;
+        if(nums[i] == nums[i+3] && nums[i+3] == nums[i+6] && nums[i+6] == mark)
+        {
+            winFound = 0;
+            turnCounter = 0;
+        }
     }
 
     //Check for win in diagonal
-    if(nums[0] == nums[4] == nums[8] == mark)
+    if(nums[0] == nums[4] && nums[4] == nums[8] && nums[8] == mark)
     {
-        return winFound = 0;
+        winFound = 0;
+        turnCounter = 0;
     }
     //Check for win in anti-diagonal
-    if(nums[2] == nums[4] == nums[6] == mark)
+    if(nums[2] == nums[4] && nums [4] == nums[6] && nums[6] == mark)
     {
-        return winFound = 0;
+        winFound = 0;
+        turnCounter = 0;
     }
     //Return whether or not someone won
-    return winFound;
+      return winFound;
 }

@@ -1,9 +1,10 @@
 # depslib dependency file v1.0
 1559104488 source:c:\users\andre\onedrive\desktop\learning c\tictactoe\main.c
 
-1561247730 source:c:\users\andre\onedrive\desktop\learning c\tictactoe\newmain.c
+1561404656 source:c:\users\andre\onedrive\desktop\learning c\tictactoe\newmain.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>
 	<conio.h>
+	<dos.h>
 
